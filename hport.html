@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harshitha S M - Portfolio</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            background: linear-gradient(135deg, #000000, #1a202c); /* Black to dark blue gradient */
+            color: #e2e8f0;
+            line-height: 1.6;
+            min-height: 100vh; /* Ensure body takes full viewport height */
+            display: flex;
+            flex-direction: column;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            flex-grow: 1; /* Allow container to grow and push footer down */
+        }
+        .navbar {
+            background-color: rgba(0, 0, 0, 0.9); /* Slightly transparent black */
+            padding: 15px 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom-left-radius: 15px;
+            border-bottom-right-radius: 15px;
+        }
+        .navbar a {
+            color: #e2e8f0;
+            text-decoration: none;
+            padding: 8px 15px;
+            border-radius: 8px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        .navbar a:hover {
+            background-color: rgba(66, 153, 225, 0.2); /* Light blue hover */
+            color: #63b3ed;
+        }
+        .navbar-brand {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #63b3ed; /* Light blue for brand name */
+        }
+        .profile-section {
+            background-color: rgba(30, 41, 59, 0.9); /* Dark blue card background */
+            border-radius: 15px;
+            padding: 40px;
+            margin-top: 30px;
+            margin-bottom: 50px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(71, 85, 105, 0.5);
+            text-align: center;
+        }
+        .profile-pic {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #63b3ed; /* Light blue border */
+            margin: 0 auto 20px auto;
+            box-shadow: 0 0 15px rgba(99, 179, 237, 0.5);
+        }
+        .section-button {
+            background-color: #2d3748; /* Dark blue button */
+            color: #e2e8f0;
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(71, 85, 105, 0.5);
+        }
+        .section-button:hover {
+            transform: translateY(-8px) scale(1.02); /* Lift and slight scale on hover */
+            background-color: #4a5568; /* Lighter dark blue on hover */
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.5);
+        }
+        .section-button svg {
+            width: 50px;
+            height: 50px;
+            margin-bottom: 15px;
+            fill: #63b3ed; /* Light blue icon color */
+            transition: transform 0.3s ease;
+        }
+        .section-button:hover svg {
+            transform: rotateY(180deg); /* Simple motion effect on icon */
+        }
+        .section-button span {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        /* Modal Styles */
+        #content-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85); /* Darker overlay */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        #content-modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .modal-content {
+            background-color: #1a202c; /* Dark blue modal background */
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 800px;
+            width: 90%;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.7);
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+            transform: translateY(20px);
+            opacity: 0;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            border: 1px solid rgba(99, 179, 237, 0.3);
+        }
+        #content-modal-overlay.active .modal-content {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        .modal-close-button {
+            background-color: #ef4444; /* Red close button */
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease;
+        }
+        .modal-close-button:hover {
+            background-color: #dc2626;
+        }
+        .modal-content h2 {
+            color: #63b3ed;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            border-bottom: 2px solid rgba(99, 179, 237, 0.3);
+            padding-bottom: 10px;
+        }
+        .modal-content h3 {
+            color: #90cdf4;
+            font-size: 1.3rem;
+            margin-top: 15px;
+            margin-bottom: 10px;
+        }
+        .modal-content p, .modal-content ul, .modal-content li {
+            font-size: 1rem;
+            margin-bottom: 10px;
+        }
+        .modal-content ul {
+            list-style-type: disc;
+            margin-left: 20px;
+        }
+        .modal-content li {
+            margin-bottom: 5px;
+        }
+        .project-item {
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px dashed rgba(71, 85, 105, 0.3);
+        }
+        .project-item:last-child {
+            border-bottom: none;
+        }
+
+        footer {
+            background-color: rgba(0, 0, 0, 0.9);
+            color: #e2e8f0;
+            padding: 20px;
+            text-align: center;
+            margin-top: 50px;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5);
+        }
+        footer a {
+            color: #63b3ed;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        footer a:hover {
+            color: #4299e1;
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                align-items: center;
+            }
+            .navbar-brand {
+                margin-bottom: 15px;
+            }
+            .navbar-links {
+                flex-direction: column;
+                align-items: center;
+                width: 100%;
+            }
+            .navbar-links a {
+                width: calc(100% - 30px); /* Adjust for padding */
+                text-align: center;
+                margin-bottom: 8px;
+            }
+            .profile-section {
+                padding: 20px;
+            }
+            .button-grid {
+                grid-template-columns: 1fr; /* Single column on small screens */
+            }
+            .section-button {
+                padding: 15px;
+            }
+            .section-button svg {
+                width: 40px;
+                height: 40px;
+                margin-bottom: 10px;
+            }
+            .section-button span {
+                font-size: 1rem;
+            }
+            .modal-content {
+                padding: 20px;
+            }
+            .modal-content h2 {
+                font-size: 1.5rem;
+            }
+            .modal-content h3 {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="navbar flex flex-col md:flex-row justify-between items-center">
+        <div class="navbar-brand">HARSHITHA S M</div>
+        <nav class="navbar-links flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-6 mt-4 md:mt-0">
+            <a href="https://www.linkedin.com/in/harshitha-sm-93309a358/" target="_blank">LinkedIn</a>
+            <a href="mailto:smharshitha80@gmail.com" target="_blank">Email</a>
+            <a href="#contact">Contact</a>
+        </nav>
+    </header>
+
+    <main class="container">
+        <section class="profile-section">
+            <img src="WhatsApp Image 2025-07-17 at 22.49.29_7a309556.jpg" alt="Harshitha S M Profile" class="profile-pic">
+            <h1 class="text-3xl md:text-4xl font-bold text-white mb-4">Hello, I'm Harshitha S M</h1>
+            <p class="text-lg text-gray-300">Motivated and detail-oriented engineering student seeking a Software Intern position to leverage programming, problem-solving, and analytical skills in real-world development environments.</p>
+        </section>
+
+        <section class="text-center mb-10">
+            <h2 class="text-2xl md:text-3xl font-bold mb-8">Explore My Profile</h2>
+            <div id="buttons-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Buttons will be dynamically populated here -->
+            </div>
+        </section>
+    </main>
+
+    <footer class="py-6">
+        <div class="container text-center">
+            <p>&copy; 2025 Harshitha S M. All rights reserved.</p>
+            <p class="mt-2">
+                Phone: <a href="tel:+916360067557">(+91) 6360067557</a> |
+                Email: <a href="mailto:smharshitha80@gmail.com">smharshitha80@gmail.com</a> |
+                Location: Banglore-560073
+            </p>
+        </div>
+    </footer>
+
+    <!-- Content Modal Overlay -->
+    <div id="content-modal-overlay">
+        <div class="modal-content">
+            <button class="modal-close-button" onclick="hideContentModal()">X</button>
+            <h2 id="modal-title"></h2>
+            <div id="modal-body"></div>
+        </div>
+    </div>
+
+    <script>
+        // Resume data (same as previous version)
+        const resumeData = {
+            name: "HARSHITHA S M",
+            contact: {
+                phone: "(+91) 6360067557",
+                email: "smharshitha80@gmail.com",
+                linkedin: "https://www.linkedin.com/in/harshitha-sm-93309a358/",
+                location: "Banglore-560073"
+            },
+            objective: "Motivated and detail-oriented engineering student seeking a Software Intern position to leverage programming, problem-solving, and analytical skills in real-world development environments. I am committed to continuous learning and professional growth while utilizing my analytical thinking, collaboration, and time management skills to drive impactful results in a challenging work environment.",
+            skills: {
+                technical: {
+                    languages: ["Python", "Java", "C"],
+                    webTechnologies: ["HTML", "CSS"],
+                    toolsFrameworks: ["Git", "VS"],
+                    concepts: ["Data Structures", "DBMS", "OOP", "ML", "Artificial intelligence Basics"]
+                },
+                soft: ["Analytical Thinking", "Problem-Solving", "Collaboration", "Time Management", "Decision-Making"]
+            },
+            projects: [
+                {
+                    title: "OTP GENERATION",
+                    type: "Academic Project",
+                    date: "Jul 2024",
+                    description: [
+                        "Developed a Python-based OTP generation and verification system.",
+                        "Applied threading for implementing a secure timeout mechanism."
+                    ]
+                },
+                {
+                    title: "IMAGE STEGANOGRAPHY USING LSB SUBSTITUTION",
+                    type: "Academic Project",
+                    date: "Jul 2025",
+                    description: [
+                        "Developed a full stack Java program using apachenetbeans as platform.",
+                        "Developed an application to hide messages inside images using pixel manipulation."
+                    ]
+                },
+                {
+                    title: "CREDIT SCORING AND SEGMENTATION OF BANKING",
+                    type: "Academic Project",
+                    date: "Feb 2024",
+                    description: [
+                        "Built Credit scoring and segmentation model using Pandas and scikit-learn.",
+                        "This model helps to segment the loan applicants based on their credit scores."
+                    ]
+                }
+            ],
+            education: {
+                degree: "Bachelor of Engineering in Information Science",
+                institution: "Sri Siddhartha Institute of Technology - TUMAKURU",
+                graduation: "Expected Graduation: 2026"
+            },
+            certifications: [
+                "Introduction to Artificial Intelligence (Oct 2024)",
+                "Introduction to Deep Learning (Oct 2024)",
+                "Cloud Computing (Jul 2024)",
+                "Foundation of Cyber Security (Jan 2024)",
+                "Academic Process Mining Fundamentals (Jan 2024)",
+                "Introduction to Web Development (Dec 2024)"
+            ],
+            hobbies: ["Watching tech talks", "Reading Novel", "Dance"]
+        };
+
+        // SVG Icons for buttons
+        const icons = {
+            objective: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>`, // Info icon
+            skills: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 12c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0-8c-4.42 0-8 3.58-8 8s3.58 8 8 8 8-3.58 8-8-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z"/></svg>`, // Cog icon (skills)
+            projects: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14 10H2v2h12v-2zm0-4H2v2h12V6zm4 8v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zM2 16h8v-2H2v2z"/></svg>`, // List/clipboard icon
+            education: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 3L1 9l11 6 9-4.5V17h2V9L12 3zm0 10.9L5.05 10.5 12 7l6.95 3.5L12 13.9z"/></svg>`, // Graduation cap icon
+            certifications: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>`, // Checkmark/certificate icon
+            hobbies: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zm0 13c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>`, // Eye icon (representing interests)
+        };
+
+        const modalOverlay = document.getElementById('content-modal-overlay');
+        const modalTitle = document.getElementById('modal-title');
+        const modalBody = document.getElementById('modal-body');
+
+        // Function to display content in the modal
+        function displayContent(sectionId) {
+            let title = '';
+            let contentHtml = '';
+
+            switch (sectionId) {
+                case 'objective':
+                    title = 'Objective';
+                    contentHtml = `<p>${resumeData.objective}</p>`;
+                    break;
+                case 'skills':
+                    title = 'Skills';
+                    contentHtml = `
+                        <h3>Technical Skills</h3>
+                        <p><strong>Languages:</strong> ${resumeData.skills.technical.languages.join(', ')}</p>
+                        <p><strong>Web Technologies:</strong> ${resumeData.skills.technical.webTechnologies.join(', ')}</p>
+                        <p><strong>Tools & Frameworks:</strong> ${resumeData.skills.technical.toolsFrameworks.join(', ')}</p>
+                        <p><strong>Concepts:</strong> ${resumeData.skills.technical.concepts.join(', ')}</p>
+                        <h3>Soft Skills</h3>
+                        <ul>
+                            ${resumeData.skills.soft.map(skill => `<li>${skill}</li>`).join('')}
+                        </ul>
+                    `;
+                    break;
+                case 'projects':
+                    title = 'Projects';
+                    contentHtml = resumeData.projects.map(project => `
+                        <div class="project-item">
+                            <h3>${project.title} <span class="text-gray-400 text-sm">(${project.type} - ${project.date})</span></h3>
+                            <ul>
+                                ${project.description.map(desc => `<li>${desc}</li>`).join('')}
+                            </ul>
+                        </div>
+                    `).join('');
+                    break;
+                case 'education':
+                    title = 'Education';
+                    contentHtml = `
+                        <p><strong>Degree:</strong> ${resumeData.education.degree}</p>
+                        <p><strong>Institution:</strong> ${resumeData.education.institution}</p>
+                        <p><strong>Graduation:</strong> ${resumeData.education.graduation}</p>
+                    `;
+                    break;
+                case 'certifications':
+                    title = 'Certifications & Courses';
+                    contentHtml = `<ul>${resumeData.certifications.map(cert => `<li>${cert}</li>`).join('')}</ul>`;
+                    break;
+                case 'hobbies':
+                    title = 'Hobbies';
+                    contentHtml = `<ul>${resumeData.hobbies.map(hobby => `<li>${hobby}</li>`).join('')}</ul>`;
+                    break;
+                default:
+                    title = 'Information';
+                    contentHtml = '<p>No content available for this section.</p>';
+            }
+
+            modalTitle.innerText = title;
+            modalBody.innerHTML = contentHtml;
+            modalOverlay.classList.add('active'); // Show modal
+        }
+
+        // Function to hide the modal
+        function hideContentModal() {
+            modalOverlay.classList.remove('active'); // Hide modal
+        }
+
+        // Function to create and append buttons
+        function createButtons() {
+            const buttonsGrid = document.getElementById('buttons-grid');
+            const sections = [
+                { id: 'objective', label: 'Objective' },
+                { id: 'skills', label: 'Skills' },
+                { id: 'projects', label: 'Projects' },
+                { id: 'education', label: 'Education' },
+                { id: 'certifications', label: 'Certifications' },
+                { id: 'hobbies', label: 'Hobbies' }
+            ];
+
+            sections.forEach(section => {
+                const button = document.createElement('div');
+                button.className = 'section-button';
+                button.setAttribute('data-section', section.id);
+                button.innerHTML = `
+                    ${icons[section.id] || ''}
+                    <span>${section.label}</span>
+                `;
+                button.addEventListener('click', () => displayContent(section.id));
+                buttonsGrid.appendChild(button);
+            });
+        }
+
+        // Initialize on window load
+        window.onload = createButtons;
+    </script>
+</body>
+</html>
