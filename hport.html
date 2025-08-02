@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Harshitha S M - Portfolio</title>
-    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
@@ -262,7 +261,175 @@
                 font-size: 1.1rem;
             }
         }
+
+        /* Styles for the new skills section */
+        .popup-section {
+            position: fixed; /* Or absolute, depending on desired layout */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85); /* Semi-transparent overlay */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .popup-section.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .popup-content {
+            background-color: #1a202c;
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 800px;
+            width: 90%;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.7);
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+            transform: translateY(20px);
+            opacity: 0;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            border: 1px solid rgba(99, 179, 237, 0.3);
+            text-align: center; /* Center content within the popup */
+        }
+
+        .popup-section.active .popup-content {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .close-btn {
+            background-color: #ef4444;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease;
+        }
+
+        .close-btn:hover {
+            background-color: #dc2626;
+        }
+
+        .popup-content h2 {
+            color: #63b3ed;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            border-bottom: 2px solid rgba(99, 179, 237, 0.3);
+            padding-bottom: 10px;
+        }
+
+        .skills-animated {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px; /* Space between skill items */
+            margin-top: 20px;
+        }
+
+        .skills-animated > div {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 15px;
+            background-color: #2d3748;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+            width: 150px; /* Fixed width for skill boxes */
+        }
+
+        .skills-animated > div:hover {
+            transform: translateY(-5px);
+        }
+
+        .skills-animated lottie-player {
+            width: 56px;
+            height: 56px;
+            margin-bottom: 10px;
+        }
+
+        .skills-animated strong {
+            color: #90cdf4;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+        .skills-animated p {
+            font-size: 0.9rem;
+            color: #e2e8f0;
+        }
+
+        /* Custom SVG specific styles */
+        .webtech-3dmonitor {
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        .webtech-3dmonitor svg {
+            overflow: visible; /* Allow overflow for 3D effect */
+        }
+
+        /* Animation for the 3D website within the monitor */
+        @keyframes website-anim {
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            50% { transform: translateY(-3px) scale(1.02); opacity: 0.9; }
+            100% { transform: translateY(0) scale(1); opacity: 1; }
+        }
+
+        .website3d {
+            animation: website-anim 3s infinite ease-in-out;
+            transform-origin: center center;
+        }
+
+        /* Individual bar animations */
+        @keyframes bar-move1 {
+            0%, 100% { transform: translateX(0); }
+            30% { transform: translateX(5px); }
+            70% { transform: translateX(-5px); }
+        }
+        @keyframes bar-move2 {
+            0%, 100% { transform: translateX(0); }
+            40% { transform: translateX(-7px); }
+            80% { transform: translateX(7px); }
+        }
+        @keyframes bar-move3 {
+            0%, 100% { transform: translateX(0); }
+            20% { transform: translateX(8px); }
+            60% { transform: translateX(-8px); }
+        }
+        @keyframes window-flash {
+            0%, 100% { opacity: 0.9; }
+            50% { opacity: 0.4; }
+        }
+
+        .bar1 { animation: bar-move1 4s infinite alternate; }
+        .bar2 { animation: bar-move2 4.5s infinite alternate; }
+        .bar3 { animation: bar-move3 5s infinite alternate; }
+        .window1, .window2 { animation: window-flash 3s infinite alternate; }
+
+
     </style>
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
 </head>
 <body>
     <header class="navbar flex flex-col md:flex-row justify-between items-center">
@@ -270,7 +437,7 @@
         <nav class="navbar-links flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-6 mt-4 md:mt-0">
             <a href="https://www.linkedin.com/in/harshitha-sm-93309a358/" target="_blank">LinkedIn</a>
             <a href="mailto:smharshitha80@gmail.com" target="_blank">Email</a>
-            <a href="#contact">Contact</a>
+            <a href="#" onclick="showContactInfo(); return false;">Contact</a>
         </nav>
     </header>
 
@@ -284,11 +451,53 @@
         <section class="text-center mb-10">
             <h2 class="text-2xl md:text-3xl font-bold mb-8">Explore My Profile</h2>
             <div id="buttons-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Buttons will be dynamically populated here -->
-            </div>
+                </div>
         </section>
     </main>
 
+    <section id="skills" class="popup-section">
+        <div class="popup-content popup-3d">
+            <button class="close-btn" onclick="closeSection('skills')">✖</button>
+            <h2>Skills</h2>
+            <div class="skills-animated">
+                <div>
+                    <lottie-player src="https://assets10.lottiefiles.com/packages/lf20_jtbfg2nb.json" background="transparent" speed="1" style="width:56px;height:56px;" loop autoplay></lottie-player>
+                    <strong>Languages:</strong> Python, Java, C
+                </div>
+                <div>
+                    <span class="webtech-3dmonitor">
+                        <svg width="56" height="56" viewBox="0 0 64 64" fill="none">
+                            <rect x="6" y="10" width="52" height="34" rx="5" fill="#0a2342" stroke="#2e95ff" stroke-width="2"/>
+                            <rect x="28" y="46" width="8" height="7" rx="2" fill="#223e6b" stroke="#2e95ff" stroke-width="1.5"/>
+                            <ellipse cx="32" cy="56" rx="13" ry="3" fill="#18326a" stroke="#2e95ff" stroke-width="1"/>
+                            <g class="website3d">
+                                <rect x="10" y="14" width="44" height="26" rx="2" fill="#1a4aaf" stroke="#2e95ff" stroke-width="1"/>
+                                <rect class="bar1" x="14" y="18" width="36" height="4" rx="1.5" fill="#fff" opacity="0.9"/>
+                                <rect class="bar2" x="14" y="24" width="18" height="3" rx="1" fill="#ffbe0b" opacity="0.9"/>
+                                <rect class="bar3" x="34" y="24" width="15" height="3" rx="1" fill="#3a86ff" opacity="0.8"/>
+                                <rect class="window1" x="14" y="30" width="13" height="6" rx="1.5" fill="#5d8aff" opacity="0.9"/>
+                                <rect class="window2" x="30" y="30" width="20" height="6" rx="1.5" fill="#fff" opacity="0.7"/>
+                            </g>
+                        </svg>
+                    </span>
+                    <strong>Web Tech:</strong> HTML, CSS
+                </div>
+                <div>
+                    <lottie-player src="https://assets3.lottiefiles.com/packages/lf20_0yfsb3a1.json" background="transparent" speed="1" style="width:56px;height:56px;" loop autoplay></lottie-player>
+                    <strong>Tools:</strong> Git, VS
+                </div>
+                <div>
+                    <lottie-player src="https://assets6.lottiefiles.com/packages/lf20_1cazwtnl.json" background="transparent" speed="1" style="width:56px;height:56px;" loop autoplay></lottie-player>
+                    <strong>Concepts:</strong> Data Structures, DBMS, OOP, ML, AI Basics
+                </div>
+                <div>
+                    <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_xlkxtmul.json" background="transparent" speed="1" style="width:56px;height:56px;" loop autoplay></lottie-player>
+                    <strong>Soft Skills:</strong> Analytical Thinking, Problem-Solving, Collaboration, Time Management, Decision-Making
+                </div>
+            </div>
+        </div>
+    </section>
+    
     <footer class="py-6">
         <div class="container text-center">
             <p>&copy; 2025 Harshitha S M. All rights reserved.</p>
@@ -300,7 +509,6 @@
         </div>
     </footer>
 
-    <!-- Content Modal Overlay -->
     <div id="content-modal-overlay">
         <div class="modal-content">
             <button class="modal-close-button" onclick="hideContentModal()">X</button>
@@ -393,24 +601,16 @@
             let title = '';
             let contentHtml = '';
 
+            // Handle the 'skills' section separately for the new popup
+            if (sectionId === 'skills') {
+                document.getElementById('skills').classList.add('active');
+                return; // Exit function, as the new skills section handles its own display
+            }
+
             switch (sectionId) {
                 case 'objective':
                     title = 'Objective';
                     contentHtml = `<p>${resumeData.objective}</p>`;
-                    break;
-                case 'skills':
-                    title = 'Skills';
-                    contentHtml = `
-                        <h3>Technical Skills</h3>
-                        <p><strong>Languages:</strong> ${resumeData.skills.technical.languages.join(', ')}</p>
-                        <p><strong>Web Technologies:</strong> ${resumeData.skills.technical.webTechnologies.join(', ')}</p>
-                        <p><strong>Tools & Frameworks:</strong> ${resumeData.skills.technical.toolsFrameworks.join(', ')}</p>
-                        <p><strong>Concepts:</strong> ${resumeData.skills.technical.concepts.join(', ')}</p>
-                        <h3>Soft Skills</h3>
-                        <ul>
-                            ${resumeData.skills.soft.map(skill => `<li>${skill}</li>`).join('')}
-                        </ul>
-                    `;
                     break;
                 case 'projects':
                     title = 'Projects';
@@ -449,9 +649,26 @@
             modalOverlay.classList.add('active'); // Show modal
         }
 
-        // Function to hide the modal
+        // Function to show contact information in the modal
+        function showContactInfo() {
+            modalTitle.innerText = 'Contact Information';
+            modalBody.innerHTML = `
+                <p><strong>Phone:</strong> <a href="tel:${resumeData.contact.phone}">${resumeData.contact.phone}</a></p>
+                <p><strong>Email:</strong> <a href="mailto:${resumeData.contact.email}">${resumeData.contact.email}</a></p>
+                <p><strong>Location:</strong> ${resumeData.contact.location}</p>
+            `;
+            modalOverlay.classList.add('active');
+        }
+
+
+        // Function to hide the modal (for general content modal)
         function hideContentModal() {
             modalOverlay.classList.remove('active'); // Hide modal
+        }
+
+        // Function to close the specific skills popup
+        function closeSection(sectionId) {
+            document.getElementById(sectionId).classList.remove('active');
         }
 
         // Function to create and append buttons
